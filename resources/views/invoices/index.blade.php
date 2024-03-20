@@ -19,7 +19,6 @@
                                         <th>Client</th>
                                         <th>Total</th>
                                         <th>Due Date</th>
-                                        <th>Details</th>
                                         <th>export</th>
                                     </tr>
                                 </thead>
@@ -31,9 +30,6 @@
                                             <td>{{ $invoice->user->name }}</td>
                                             <td>${{ $invoice->total }}</td>
                                             <td>{{ $invoice->due_date }}</td>
-                                            <td>
-                                                <button class="btn btn-success"><i class="fa fa-list"></i></button>
-                                            </td>
                                             <td>
                                                 <button data-id="{{ $invoice->id }}" class="btn btn-danger pdf-button"><i
                                                         class="fa fa-file-pdf"></i></button>
@@ -96,6 +92,8 @@
             </div>
         </div>
     </div>
+
+
 @endsection
 
 @section('script')
@@ -103,8 +101,9 @@
         $(document).ready(function() {
             $('.pdf-button').click(function() {
                 var invoiceId = $(this).data('id');
+                var url = "{{ url('/invoices') }}/" + invoiceId + "/pdf";
 
-                window.open("{{ url('/invoices') }}/" + invoiceId + "/pdf", '_blank');
+                window.open(url, '_blank');
             });
         });
     </script>

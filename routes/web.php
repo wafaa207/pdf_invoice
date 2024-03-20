@@ -27,3 +27,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('/invoices',InvoiceController::class);
 Route::get('/invoices/{id}/pdf', [InvoiceController::class, 'exportPDF'])->name('exportPDF');
 
+

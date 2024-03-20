@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreInvoiceRequest;
 use App\Models\Company;
 use App\Models\Invoice;
+use App\Models\InvoiceItems;
 use App\Models\User;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
@@ -34,9 +36,44 @@ class InvoiceController extends Controller
      * Store a newly created resource in storage.
     */
 
-    public function store(Request $request)
+    public function store(StoreInvoiceRequest $request)
     {
-        dd($request->all());
+        $subtotal = 0;
+        foreach ($request->price as $key => $price) {
+            $subtotal += $price * $request->qty[$key];
+        }
+
+        $total = $subtotal + $request->input('tax', 0) - $request->input('discount', 0);
+
+        $depositRequested = $total * 0.1;
+
+        $depositDue = $depositRequested;
+
+        $invoice = Invoice::create([
+            'number' => 'INV_' . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT),
+            'company_id' => $request->company_id,
+            'user_id' => $request->user_id,
+            'date_issued' => $request->date_issued,
+            'due_date' => $request->due_date,
+            'discount' => $request->discount ?? 0,
+            'tax' => $request->input('tax', 0),
+            'subtotal' => $subtotal,
+            'total' => $total,
+            'deposit_requested' => $depositRequested,
+            'deposit_due' => $depositDue,
+        ]);
+
+        foreach ($request->description as $key => $description) {
+            InvoiceItems::create([
+                'invoice_id' => $invoice->id,
+                'description' => $description,
+                'rate' => $request->price[$key],
+                'quantity' => $request->qty[$key],
+                'amount' => $request->price[$key] * $request->qty[$key],
+            ]);
+        }
+
+        return redirect()->route('invoices.index')->with('success', 'Invoice created successfully.');
     }
 
     /**

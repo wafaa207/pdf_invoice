@@ -15,11 +15,14 @@ class Invoice extends Model
         'user_id',
         'date_issued',
         'due_date',
+
         'deposit_requested',
         'deposit_due',
         'subtotal',
+        
         'discount',
         'tax',
+
         'total'
     ];
 
