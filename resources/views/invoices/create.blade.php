@@ -93,20 +93,20 @@
                                                 <label class="form-label">Discount</label>
                                                 <input type="number" name="discount"
                                                     class="form-control form-control-rounded" placeholder="type number.."
-                                                    required>
+                                                    >
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-4">
                                             <div class="mb-3">
                                                 <label class="form-label">Tax</label>
                                                 <input type="number" name="tax"
-                                                    class="form-control form-control-rounded " placeholder="tax..">
+                                                    class="form-control form-control-rounded " placeholder="tax.." required>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer text-end">
-                                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                                    <button type="submit" class="btn btn-primary">create</button>
                                 </div>
                             </form>
                         </div>

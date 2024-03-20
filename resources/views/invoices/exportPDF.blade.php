@@ -592,15 +592,15 @@
 
 <body>
     <div>
-        <div class="py-10">
+        <div class="py-6">
+            <div style="background-color: #94a3b8;" class=" px-14 py-6">
+            </div>
             <div class="px-14 py-6">
                 <table class="w-full border-collapse border-spacing-0">
                     <tbody>
                         <tr>
                             <td class="w-full align-top">
-                                <div>
-                                    <img src="{{ public_path('Invoice2go-Logo-.svg.png') }}" class="h-12" />
-                                </div>
+                                <h1 class="text-main" style="font-size: 300%">Invoice</h1>
                             </td>
                             <td class="align-top">
                                 <div class="text-sm">
@@ -609,7 +609,8 @@
                                             <tr>
                                                 <td class="border-r pr-4">
                                                     <div>
-                                                        <p class="whitespace-nowrap text-slate-400 text-right">Date Issued</p>
+                                                        <p class="whitespace-nowrap text-slate-400 text-right">Date
+                                                            Issued</p>
                                                         <p class="whitespace-nowrap font-bold text-main text-right">
                                                             {{ $invoice->date_issued }}</p>
                                                     </div>
@@ -684,13 +685,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="border-b py-3 pl-3">1.</td>
-                            <td class="border-b py-3 pl-2">Montly accountinc services</td>
-                            <td class="border-b py-3 pl-2 text-right">$150.00</td>
-                            <td class="border-b py-3 pl-2 text-center">20%</td>
-                            <td class="border-b py-3 pl-2 pr-3 text-right">$180.00</td>
-                        </tr>
+                        @foreach ($invoice->items as $key => $item)
+                            <tr>
+                                <td class="border-b py-3 pl-3">{{ ++$key }}</td>
+                                <td class="border-b py-3 pl-2">{{ $item->description }}</td>
+                                <td class="border-b py-3 pl-2 text-right">${{ $item->rate }}</td>
+                                <td class="border-b py-3 pl-2 text-center">{{ $item->quantity }}</td>
+                                <td class="border-b py-3 pl-2 pr-3 text-right">${{ $item->amount }}</td>
+                            </tr>
+                        @endforeach
+
                         <tr>
                             <td colspan="7">
                                 <table class="w-full border-collapse border-spacing-0">
@@ -702,52 +706,57 @@
                                                     <tbody>
                                                         <tr>
                                                             <td class=" p-3">
-                                                                <div class="whitespace-nowrap font-bold text-slate-400">Subtotal:
+                                                                <div class="whitespace-nowrap font-bold text-slate-400">
+                                                                    Subtotal:
                                                                 </div>
                                                             </td>
                                                             <td class=" p-3 text-right">
                                                                 <div class="whitespace-nowrap font-bold">
-                                                                    $320.00</div>
+                                                                    ${{ $invoice->subtotal }}</div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td class=" p-3">
-                                                                <div class="whitespace-nowrap font-bold text-slate-400">Discount:
+                                                                <div class="whitespace-nowrap font-bold text-slate-400">
+                                                                    Discount:
                                                                 </div>
                                                             </td>
                                                             <td class=" p-3 text-right">
                                                                 <div class="whitespace-nowrap font-bold">
-                                                                    $320.00</div>
+                                                                    ${{ $invoice->discount }}</div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td class="border-b-2 border-main p-3">
-                                                                <div class="whitespace-nowrap font-bold text-slate-400">Tax:
+                                                                <div class="whitespace-nowrap font-bold text-slate-400">
+                                                                    Tax:
                                                                 </div>
                                                             </td>
                                                             <td class="border-b-2 border-main p-3 text-right">
                                                                 <div class="whitespace-nowrap font-bold">
-                                                                    $320.00</div>
+                                                                    ${{ $invoice->tax }}</div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td class="p-3">
-                                                                <div class="whitespace-nowrap font-bold text-slate-400">Total:
+                                                                <div class="whitespace-nowrap font-bold text-slate-400">
+                                                                    Total:
                                                                 </div>
                                                             </td>
                                                             <td class="p-3 text-right">
                                                                 <div class="whitespace-nowrap font-bold">
-                                                                    $64.00</div>
+                                                                    ${{ $invoice->total }}</div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td class="p-3">
-                                                                <div class="whitespace-nowrap font-bold text-slate-400">Deposit Requested:
+                                                                <div class="whitespace-nowrap font-bold text-slate-400">
+                                                                    Deposit Requested:
                                                                 </div>
                                                             </td>
                                                             <td class="p-3 text-right">
                                                                 <div class="whitespace-nowrap font-bold">
-                                                                    $64.00</div>
+                                                                    ${{ $invoice->deposit_requested }}</div>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -757,7 +766,7 @@
                                                             </td>
                                                             <td class="bg-main p-3 text-right">
                                                                 <div class="whitespace-nowrap font-bold text-white">
-                                                                    $384.00</div>
+                                                                    ${{ $invoice->deposit_due }}</div>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -780,17 +789,17 @@
             <div class="px-14 py-10 text-sm text-neutral-700">
                 <p class="text-main font-bold">Notes</p>
                 <p class="italic">Thank You For Your Business!</p>
-                </div>
-
-                <footer class="fixed bottom-0 left-0 bg-slate-100 w-full text-neutral-600 text-center text-xs py-3">
-                    {{ $invoice->company->company_name }}
-                    <span class="text-slate-300 px-2">|</span>
-                    info@company.com
-                    <span class="text-slate-300 px-2">|</span>
-                    {{ $invoice->company->phone }}
-                </footer>
             </div>
+
+            <footer class="fixed bottom-0 left-0 bg-slate-100 w-full text-neutral-600 text-center text-xs py-3">
+                {{ $invoice->company->company_name }}
+                <span class="text-slate-300 px-2">|</span>
+                info@company.com
+                <span class="text-slate-300 px-2">|</span>
+                {{ $invoice->company->phone }}
+            </footer>
         </div>
+    </div>
 </body>
 
 </html>

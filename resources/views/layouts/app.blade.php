@@ -15,10 +15,19 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <style>
+        .toast-success {
+            background-color: green !important;
+        }
+    </style>
+
 
 
     <!-- Scripts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-RzjEoyNhiTYt43ZjhBCj3v0B7I81lizLlbZysPYcYS5SRbZ+MUhzHnLepNr6WcqEMuSGh+WRQ4uBCb7iI7ioww==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-RzjEoyNhiTYt43ZjhBCj3v0B7I81lizLlbZysPYcYS5SRbZ+MUhzHnLepNr6WcqEMuSGh+WRQ4uBCb7iI7ioww=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
@@ -93,7 +102,17 @@
             @yield('content')
         </main>
 
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                @if (session('success'))
+                    toastr.success('{{ session('success') }}');
+                @endif
+            });
+        </script>
+
         @yield('script')
 
     </div>
